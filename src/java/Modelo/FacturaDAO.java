@@ -22,7 +22,36 @@ String msj;
 Cliente cliente = new Cliente ();
 Factura factura= new Factura();
     
-    
+//no se utiliza
+       @Override
+    public List FDlistar() {
+       
+          List <Factura> datos= new ArrayList <>();
+          //List <Cliente> datoss= new ArrayList <>();
+        String sql=" select factura_detalle.id_factura_detalle,factura_detalle.cantidad,factura_detalle.precio,producto.nombre,producto.marca\n" +
+" from db_patron.factura_detalle,db_patron.producto\n" +
+" where factura_detalle.id_producto=producto.id_producto";
+        try
+        {
+            con =conex .getConnection();
+            ps=con.prepareStatement(sql);
+            rs=ps.executeQuery();
+            while(rs.next()){
+           Factura u= new  Factura();
+            u.setId(rs.getInt("id_factura_detalle"));
+            u.setFecha(rs.getString("fecha"));
+            u.setTotal(rs.getString("total"));
+            u.setNombre(rs.getString("nombre"));
+            datos.add(u);
+            
+            
+            
+            }
+        } catch (Exception e){
+        }
+        
+        return datos;
+    }
     
 
     @Override
@@ -30,8 +59,14 @@ Factura factura= new Factura();
        
           List <Factura> datos= new ArrayList <>();
           //List <Cliente> datoss= new ArrayList <>();
-        String sql="select factura.id_factura,factura.fecha,factura.total,cliente.nombre \n" +
-" from db_patron.factura,db_patron.cliente";
+        String sql="select factura_detalle.id_factura,factura.fecha,cliente.id_cliente,cliente.nombre,cliente.nit,SUM(cantidad*precio) AS total\n" +
+" from db_patron.factura,db_patron.cliente,db_patron.factura_Detalle,db_patron.producto\n" +
+" where factura_detalle.id_factura= factura.id_factura \n" +
+" and factura.id_cliente=cliente.id_cliente \n" +
+"and factura_detalle.id_producto=producto.id_producto\n" +
+" and factura_detalle.id_factura=\"1\"\n" +
+" GROUP BY factura_detalle.id_factura,factura.fecha,cliente.id_cliente,cliente.nombre,cliente.nit\n" +
+" ";
         try
         {
             con =conex .getConnection();
@@ -41,8 +76,11 @@ Factura factura= new Factura();
            Factura u= new  Factura();
             u.setId(rs.getInt("id_factura"));
             u.setFecha(rs.getString("fecha"));
-            u.setTotal(rs.getString("total"));
+              u.setId_cliente(rs.getInt("id_cliente"));
+         
             u.setNombre(rs.getString("nombre"));
+               u.setNit(rs.getString("nit"));
+                u.setTotal(rs.getString("total"));
             datos.add(u);
             
             
