@@ -12,18 +12,20 @@ public class Factura {
     String fecha;
     String  total ;
     String nombre;
+    String nit;
     
     public Factura  (){
     
     
     }
-  public Factura  ( int id, int id_cliente ,String fecha, String total, String nombre ){
+  public Factura  ( int id, int id_cliente ,String fecha, String total, String nombre , String nit ){
     
     this.id= id;
     this.id_cliente=id_cliente;
     this.fecha=fecha;
     this.total=total;
     this.nombre=nombre;
+    this.nit=nit;
     
     
     }
@@ -66,6 +68,14 @@ public class Factura {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getNit() {
+        return nit;
+    }
+
+    public void setNit(String nit) {
+        this.nit = nit;
     }
   
   
