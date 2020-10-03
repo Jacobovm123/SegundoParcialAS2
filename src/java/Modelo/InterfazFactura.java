@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface InterfazFactura {
      public List Flistar();
+     public List FDlistar();
     public User listarID(int id );
     public String add(int id_cliente , String fecha, String total);
     public String edit(int id ,int id_cliente , String fecha, String total);
